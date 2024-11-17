@@ -1,7 +1,8 @@
 from decimal import Decimal, getcontext
+import time
 class gravitation():
     # Setting the precision of Decimal up to 25 digits
-    getcontext().prec = 25
+    getcontext().prec = 100
     
     def celestial_calculations(mAs1, mAs2, r, s):
         g = Decimal("0.00000000006673")
@@ -11,6 +12,7 @@ class gravitation():
         divider = Decimal((100 / r))
         # Settings the velocity for the acceleration calculations
         velocity = Decimal(0)
+        cTime = time.perf_counter()
         while r > 0:
             # Calculating the force in newtons
             f = Decimal((g * m1 * m2) / (r * r))
@@ -24,7 +26,10 @@ class gravitation():
             r -= velocity * s
             if r < 0:
                 r = 0
-            print(f"Velocity: {a} R Distance: {r * divider}")
+            if cTime - time.perf_counter() <= -5:
+                cTime = time.perf_counter()
+                print(f"Velocity: {velocity:.2f} R Distance: {r:.2f}")
+                
         main()
     
     def celestial_power(n, s):
